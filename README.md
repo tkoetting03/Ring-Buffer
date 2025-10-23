@@ -23,3 +23,4 @@ int buffer[bufferSize] = {0};
 ```
 For this first ring buffer we will use the most basic array creation methods at first and move onto more complex methods as we progress. 
 
+<img src="/images/ringbufferloop.png" alt="Buffer Ring" title="Buffer Ring 2" width="40%">
