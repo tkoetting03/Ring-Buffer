@@ -21,5 +21,5 @@ Let's say our buffer has 20 blank elements indexed in sequential order from 0-19
 int bufferSize = 20;
 int buffer[bufferSize] = {0};
 ```
-
+For this first ring buffer we will use the most basic array creation methods at first and move onto more complex methods as we progress. 
 
