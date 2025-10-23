@@ -4,7 +4,7 @@
 
 In this repository I am going to be describing the code and concepts relevant to this project. 
 
-### Unordered
+### Creating the Ring Buffer
 
 Below we have a graphical representation of a ring buffer. This is a buffer with its beginning and end "linked" so that traversing the buffer results in going "around the loop" per-se.
 
