@@ -29,6 +29,8 @@ We to replicate the above behavior represented by the arrows, with each time whe
     
 $\text{Index} = 21\mod{20} = 1$
 
+So we then can go to the buffer at index 1.
+
 ```
 int *p = &a[0];
 int goalPosition = 21;
