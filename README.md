@@ -8,4 +8,4 @@ In this repository I am going to be describing the code and concepts relevant to
 
 Below we have a graphical representation of a ring buffer.
 
-![Buffer Ring](/images/ringbufferblank.png "Buffer Ring")
+<img src="/images/ringbufferblank.png" alt="Buffer Ring" title="Buffer Ring" width="50%">
