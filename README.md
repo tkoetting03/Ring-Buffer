@@ -12,7 +12,7 @@ Below we have a graphical representation of a ring buffer. This is a buffer with
 
 We begin by making the ring buffer as just a normal buffer, or also known as an array. 
 
-<img src="/images/ringbufferblankintobuffer.png" alt="Buffer Ring" title="Buffer Ring 2" width="40%">
+<img src="/images/ringbufferconverted.png" alt="Buffer Ring" title="Buffer Ring 2" width="40%">
 
 Let's say our buffer has 20 blank elements indexed in sequential order from 0-19. 
 
