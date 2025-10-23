@@ -11,3 +11,6 @@ Below we have a graphical representation of a ring buffer. This is a buffer with
 <img src="/images/ringbufferblank.png" alt="Buffer Ring" title="Buffer Ring" width="40%">
 
 We begin by making the ring buffer as just a normal buffer, or also known as an array. 
+
+<img src="/images/ringbufferblankintobuffer.png" alt="Buffer Ring" title="Buffer Ring 2" width="40%">
+
