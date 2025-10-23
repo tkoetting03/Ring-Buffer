@@ -17,7 +17,8 @@ We begin by making the ring buffer as just a normal buffer, or also known as an 
 Let's say our buffer has 20 blank elements indexed in sequential order from 0-19. 
 
 ```
-
+int bufferSize = 20; // Setting buffer size to 20
+int buffer[bufferSize] = {0}; // Initializing first & all elements to 0
 ```
 
 
