@@ -176,7 +176,7 @@ pointerStruct->stored = 0;
 Now that that is taken care of, we can move on to making a function with pops a value that the tail is currently pointing at. We start by creating the functions declaration:
 
 ```
-void pop(ringBuffer *pointerStruct, int outputLocation)
+void pop(ringBuffer *pointerStruct, int *outputLocation)
 ```
 Where "pointerStruct" is the same pointer to the struct we discussed above, but now we have a new variable, "outputLocation". As the name implies, this is the location where the data popped should be send/stored once it is removed from the buffer. Defining the function we can now write it as:
 
@@ -213,7 +213,7 @@ void push(ringBuffer *pointerStruct, int pushValue) {
     pointerStruct->stored++;
 }
 
-void pop(ringBuffer *pointerStruct, int outputLocation) {
+void pop(ringBuffer *pointerStruct, int *outputLocation) {
     *outputLocation = pointerStruct->buffer[pointerStruct->tail];
     pointerStruct->tail = (pointerStruct->tail + 1) $ pointerStruct-> mask;
     pointerStruct->stored--;
