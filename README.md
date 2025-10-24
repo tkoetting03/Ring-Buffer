@@ -43,11 +43,11 @@ Our most viable alternative is the bitwise AND. This requires more components an
 
 <img src="/images/ringbufferloop16.png" alt="Buffer Ring" title="Buffer Ring 2" width="60%">
 
-We need to define some new variables,
+We need to define a new variable and redefine our original BUFFER_SIZE macro to fit our power of 2 constraints,
 
 ```
-int bufferCapacity = 16;
-int bufferMask = buffer[Capacity - 1];
+#define BUFFER_SIZE 16
+int bufferMask = BUFFER_SIZE - 1;
 ```
 We can describe our mask as the following: mathematically:
 
@@ -71,11 +71,48 @@ And so on. We can thus implement the following C code:
 
 ```
 int *p = &buffer[0];
-int goalPosition = 21;
+int goalPosition = 17;
+p = &buffer[goalPosition & bufferMask];
+```
+And put it all together to get
+
+```
+#define BUFFER_SIZE 16
+int buffer[BUFFER_SIZE] = {0};
+int *p = &buffer[0];
+int goalPosition = 17;
+int bufferMask = BUFFER_SIZE - 1;
 p = &buffer[goalPosition & bufferMask];
 ```
 
+This is a greately simplified program but it gets the job done. Throwing together a quick C program we will write
 
+```
+#include <stdio.h>
+
+
+int main() {
+
+
+    #define BUFFER_SIZE 16
+    int buffer[BUFFER_SIZE] = {0};
+    int *p = &buffer[0];
+    buffer[1] = 25;
+    int goalPosition = 17;
+    int bufferMask = BUFFER_SIZE - 1;
+    p = &buffer[goalPosition & bufferMask];
+
+    printf("%d\n", *p);
+
+return 0;
+}
+```
+
+Which gives us the output:
+
+```
+25
+```
 
 
 
