@@ -14,12 +14,12 @@ We begin by making the ring buffer as just a normal buffer, or also known as an 
 
 <img src="/images/ringbufferconverted.png" alt="Buffer Ring" title="Buffer Ring 2" width="40%">
 
-Let's say our buffer has 20 blank elements indexed in sequential order from 0-19. We need a new straight array to mimic our conceptual array, so we set the buffer size to be 20, and initialize the first & all elements to be 0.
+Let's say our buffer has 20 blank elements indexed in sequential order from 0-19. We need a new straight array to mimic our conceptual array, so we set a macro for the buffer size to be 20, and initialize the first & all elements to be 0.
 
 
 ```
-int bufferSize = 20;
-int buffer[bufferSize] = {0};
+#define BUFFER_SIZE 20
+int buffer[BUFFER_SIZE] = {0};
 ```
 For this first ring buffer we will use the most basic array creation methods at first and move onto more complex methods as we progress. 
 
@@ -32,7 +32,7 @@ $\text{Index} = 21\mod{20} = 1$
 So we then can go to the buffer at index 1.
 
 ```
-int *p = &a[0];
+int *p = &buffer[0];
 int goalPosition = 21;
 p = &buffer[goalPosition % 20];
 ```
@@ -49,23 +49,9 @@ We need to define some new variables,
 int bufferCapacity = 16;
 int bufferMask = bufferCapacity - 1;
 ```
+We can describe our mask as the following: mathematically:
 
-The goal of finding a mask is finding a number which when bitwise ANDed with the buffer capacity will produce all 0's, for example, our mask is 15 because if you look at the resulting binary from the AND operation we get:
-
-```
-    0001_0000 (16)
-    0000_1111 (15)
-&____________
-    0000_0000 (0)
-```
-
-We do this since using modulo when
-
-$\text{Index} = 16\mod{15} = 1$
-
-We get a result of one, but assuming that the mask (15) is offset from the real modulo value that would be used, we can get a fairly straight forward modulo substitute. So in reality our operation of bitwise ANDing 16 & 15 is the same as:
-
-$\text{Index} = 16\mod{16} = 0$
+$\text{x AND }(\text{Buffer Size} -1) = x\mod{\text{Buffer Size}} $
 
 For example, if we want to traverse 17 elements, so effectively one position forward after completing one full "loop", we can see that the result of bitwise ANDing the binary representations of 17 and 15 together is 1. 
 
