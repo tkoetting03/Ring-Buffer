@@ -124,6 +124,7 @@ struct ringBuffer {
     
 
 }
+```
 
 Our pointer, "buffer", points to the buffer itself in memory, 
 
