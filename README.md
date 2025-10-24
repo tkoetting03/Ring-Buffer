@@ -137,3 +137,8 @@ We also have our capacity, which is the number of elements we can store in the b
 We now must figure out how we want to treat our elements when read and when written. Our buffer serves only as a temporary position for data so it can be read once and then popped off of the buffer. We also want to be able to push (write) new data to elements. This makes the ring buffer similar to a FIFO (first in first out) queue data structure. This means that our oldest element is at the tail, while our newest element is just before head. 
 
 <img src="/images/headtailbuffernew.png" alt="Buffer Ring" title="Buffer Ring" width="60%">
+
+And after a pushing 3 values and popping 3 values we can represent the same buffer as:
+
+<img src="/images/pushpopbuffer.png" alt="Buffer Ring" title="Buffer Ring" width="60%">
+
