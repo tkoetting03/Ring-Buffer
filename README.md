@@ -4,7 +4,7 @@
 
 In this repository I am going to be describing the code and concepts relevant to this project. 
 
-### Creating the Ring Buffer
+## Creating the Ring Buffer
 
 Below we have a graphical representation of a ring buffer. This is a buffer with its beginning and end "linked" so that traversing the buffer results in going "around the loop" per-se.
 
@@ -114,5 +114,8 @@ Which gives us the output:
 25
 ```
 
+## Reading and Writing to the Ring Buffer
+
+Our program works but it isn't, well, very useful, we can't really write or read intuitive we have to alter the code each time to print a value that the pointer points to in the buffer. 
 
 
