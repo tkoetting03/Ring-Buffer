@@ -39,3 +39,8 @@ p = &buffer[goalPosition % 20];
 
 Unfortunately though when working with constraints for embedded systems, using modulo is resource intensive. Modulo uses division to find remainders, at a low level it uses iterative compare, subtract, and shift steps repeatedly and often is only able to be completed once per clock cycle resulting in high latency. So we need to find a more efficient way to effectively take the modulo of a requested position movement by the size of the buffer. 
 
+Our most viable alternative is the bitwise AND. This requires more components and has some trick restrictions but is significantly faster. The big asterisk is that the capacity the buffer has must be a power of 2. So if we adjust our original buffer size we can start with this new buffer looping technique. Let's use 16. 
+
+<img src="/images/ringbufferloop16.png" alt="Buffer Ring" title="Buffer Ring 2" width="40%">
+
+
