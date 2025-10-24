@@ -63,7 +63,11 @@ We do this since using modulo when
 
 $\text{Index} = 16\mod{15} = 1$
 
-We get a result of one, but assuming that the mask (15) is offset from the real modulo value that would be used, we can get a fairly straight forward modulo substitute. For example, if we want to traverse 17 elements, so effectively one position forward after completing one full "loop", we can see that the result of bitwise ANDing the binary representations of 17 and 15 together is 1. 
+We get a result of one, but assuming that the mask (15) is offset from the real modulo value that would be used, we can get a fairly straight forward modulo substitute. So in reality our operation of bitwise ANDing 16 & 15 is the same as:
+
+$\text{Index} = 16\mod{16} = 0$
+
+For example, if we want to traverse 17 elements, so effectively one position forward after completing one full "loop", we can see that the result of bitwise ANDing the binary representations of 17 and 15 together is 1. 
 
 
 ```
