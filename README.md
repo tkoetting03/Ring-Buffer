@@ -23,7 +23,7 @@ int buffer[bufferSize] = {0};
 ```
 For this first ring buffer we will use the most basic array creation methods at first and move onto more complex methods as we progress. 
 
-<img src="/images/ringbufferloop.png" alt="Buffer Ring" title="Buffer Ring 2" width="40%">
+<img src="/images/ringbufferloop.png" alt="Buffer Ring" title="Buffer Ring 2" width="60%">
 
 To replicate the above behavior represented by the arrows, with each time when we increment forward in an index at index 19, we go back to index 0, ad infinitum. The easiest way to about this is to use the modulo of the size applied to the requested position, so that when when go forward 21 elements, it will be the same as going forward 1 element. We first begin by creating a pointer which points to the first element at index 0 of the buffer. We then establish how far forward we want the pointer to move with the goalPosition variable. We then set p to point to the address of the respective element that is at the index:
     
@@ -41,6 +41,24 @@ Unfortunately though when working with constraints for embedded systems, using m
 
 Our most viable alternative is the bitwise AND. This requires more components and has some trick restrictions but is significantly faster. The big asterisk is that the capacity the buffer has must be a power of 2. So if we adjust our original buffer size we can start with this new buffer looping technique. Let's use 16. 
 
-<img src="/images/ringbufferloop16.png" alt="Buffer Ring" title="Buffer Ring 2" width="40%">
+<img src="/images/ringbufferloop16.png" alt="Buffer Ring" title="Buffer Ring 2" width="60%">
+
+We need to define some new variables,
+
+```
+int bufferCapacity = 16;
+int bufferMask = bufferCapacity - 1;
+```
+
+The goal of finding a mask is finding a number which when bitwise ANDed with the buffer capacity will produce all 0's, for example, our mask is 15 because if you look at the resulting binary from the AND operation we get:
+
+```
+    0001_0000
+    0000_1111
+&____________
+    0000_0000
+```
+
+
 
 
