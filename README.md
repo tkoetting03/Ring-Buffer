@@ -47,12 +47,11 @@ We need to define some new variables,
 
 ```
 int bufferCapacity = 16;
-int bufferMask = bufferCapacity - 1;
+int bufferMask = buffer[Capacity - 1];
 ```
 We can describe our mask as the following: mathematically:
 
 $\text{x AND }(\text{Mask}) = x\mod({\text{Buffer Size}}) $
-
 
 Or
 
