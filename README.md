@@ -71,7 +71,7 @@ For example, if we want to traverse 17 elements, so effectively one position for
 And so on. We can thus implement the following C code:
 
 ```
-int *p = &a[0];
+int *p = &buffer[0];
 int goalPosition = 21;
 p = &buffer[goalPosition & bufferMask];
 ```
