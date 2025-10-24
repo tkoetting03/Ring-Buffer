@@ -51,6 +51,11 @@ int bufferMask = bufferCapacity - 1;
 ```
 We can describe our mask as the following: mathematically:
 
+$\text{x AND }(\text{Mask}) = x\mod({\text{Buffer Size}}) $
+
+
+Or
+
 $\text{x AND }(\text{Buffer Size} -1) = x\mod({\text{Buffer Size}}) $
 
 For example, if we want to traverse 17 elements, so effectively one position forward after completing one full "loop", we can see that the result of bitwise ANDing the binary representations of 17 and 15 together is 1. 
