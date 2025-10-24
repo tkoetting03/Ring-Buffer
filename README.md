@@ -215,7 +215,7 @@ void push(ringBuffer *pointerStruct, int pushValue) {
 
 void pop(ringBuffer *pointerStruct, int *outputLocation) {
     *outputLocation = pointerStruct->buffer[pointerStruct->tail];
-    pointerStruct->tail = (pointerStruct->tail + 1) $ pointerStruct-> mask;
+    pointerStruct->tail = (pointerStruct->tail + 1) & pointerStruct-> mask;
     pointerStruct->stored--;
 }
 ```
