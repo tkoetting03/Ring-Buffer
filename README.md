@@ -53,12 +53,25 @@ int bufferMask = bufferCapacity - 1;
 The goal of finding a mask is finding a number which when bitwise ANDed with the buffer capacity will produce all 0's, for example, our mask is 15 because if you look at the resulting binary from the AND operation we get:
 
 ```
-    0001_0000
-    0000_1111
+    0001_0000 (16)
+    0000_1111 (15)
 &____________
-    0000_0000
+    0000_0000 (0)
 ```
 
+We do this since using modulo when
+
+$\text{Index} = 16\mod{15} = 1$
+
+We get a result of one, but assuming that the mask (15) is offset from the real modulo value that would be used, we can get a fairly straight forward modulo substitute. For example, if we want to traverse 17 elements, so effectively one position forward after completing one full "loop", we can see that the result of bitwise ANDing the binary representations of 17 and 15 together is 1. 
 
 
+```
+    0001_0001 (17)
+    0000_1111 (15)
+&____________
+    0000_0001 (1)
+```
+
+And so on. 
 
