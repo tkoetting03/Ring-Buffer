@@ -122,9 +122,9 @@ Our program works but it isn't, well, very useful, we can't really write or read
 struct ringBuffer {
     int *buffer;
     int capacity = 16;
-    int head = 1;
-    int tail = 0;
-    int stored = 0;
+    int head = 0;
+    int tail = 9;
+    int stored = 9;
 }
 ```
 
@@ -133,3 +133,7 @@ Our pointer, "buffer", points to the first element in the buffer in memory,
 <img src="/images/structbuffernew.png" alt="Buffer Ring" title="Buffer Ring 2" width="60%">
 
 We also have our capacity, which is the number of elements we can store in the buffer, our "head"; which is the index where our next write will occur, our "tail"; which is the index where our next read will occur, and "stored"; which is the number of elements stored in the buffer (maximum of 16).
+
+We now must figure out how we want to treat our elements when read and when written. Our buffer serves only as a temporary position for data so it can be read once and then popped off of the buffer. We also want to be able to push (write) new data to elements. This makes the ring buffer similar to a FIFO (first in first out) queue data structure. This means that our oldest element is at the tail, while our newest element is just before head. 
+
+<img src="/images/headtailbuffer.png" alt="Buffer Ring" title="Buffer Ring" width="40%">
