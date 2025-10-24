@@ -146,7 +146,7 @@ And after a pushing 3 values and popping 3 values we can represent the same buff
 So now we need to code a read and write function that can do what we have outlined above, we can start by creating a function declaration:
 
 ```
-int push(ringBuffer *pointerStruct, int pushValue)
+void push(ringBuffer *pointerStruct, int pushValue)
 ```
 
 We pass our pointer, "pointerStruct", to the function as a pointer to the ringBuffer struct, and we also pass "pushValue" as the value which we wish to write into the next element the head is current pointing to. Next we can add the actual meat of the function:
@@ -173,6 +173,51 @@ pointerStruct->tail = 0;
 pointerStruct->stored = 0;
 }
 ```
+Now that that is taken care of, we can move on to making a function with pops a value that the tail is currently pointing at. We start by creating the functions declaration:
 
+```
+void pop(ringBuffer *pointerStruct, int outputLocation)
+```
+Where "pointerStruct" is the same pointer to the struct we discussed above, but now we have a new variable, "outputLocation". As the name implies, this is the location where the data popped should be send/stored once it is removed from the buffer. Defining the function we can now write it as:
+
+```
+*outputLocation = pointerStruct->buffer[pointerStruct->tail];
+pointerStruct->tail = (pointerStruct->tail + 1) $ pointerStruct-> mask;
+pointerStruct->stored--;
+```
+
+With our first line we set the variable "outputLocation" to equal to the value stored at the buffer where the tail pointer points, which accomplishes our goal of storing the variable elsewhere. We then move the tail up using our bitwise AND technique and decrement the variable which tracks the number of elements stored in the buffer ("stored"). If we put everything together we can have a program with some increased functionality compared to our last one, though this one has no interface. 
+
+```
+typedef struct {
+    int *buffer;
+    int capacity;
+    int mask;
+    int head;
+    int tail;
+    int stored;
+} ringBuffer;
+
+void ringBuffer_init(ringBuffer *pointerStruct, int capacity) {
+    pointerStruct->capacity = capacity;
+    pointerStruct->mask = capacity - 1;
+    pointerStruct->head = 0;
+    pointerStruct->tail = 0;
+    pointerStruct->stored = 0;
+}
+
+
+void push(ringBuffer *pointerStruct, int pushValue) {
+    pointerStruct->buffer[pointerStruct->head] = pushValue;
+    pointerStruct->head = (pointerStruct->head + 1) & pointerStruct->mask;
+    pointerStruct->stored++;
+}
+
+void pop(ringBuffer *pointerStruct, int outputLocation) {
+    *outputLocation = pointerStruct->buffer[pointerStruct->tail];
+    pointerStruct->tail = (pointerStruct->tail + 1) $ pointerStruct-> mask;
+    pointerStruct->stored--;
+}
+```
 
 
