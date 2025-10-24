@@ -121,12 +121,15 @@ Our program works but it isn't, well, very useful, we can't really write or read
 ```
 struct ringBuffer {
     int *buffer;
-    
-
+    int capacity = 16;
+    int head = 1;
+    int tail = 0;
+    int stored = 0;
 }
 ```
 
-Our pointer, "buffer", points to the buffer itself in memory, 
+Our pointer, "buffer", points to the first element in the buffer in memory, 
 
 <img src="/images/structbuffer.png" alt="Buffer Ring" title="Buffer Ring 2" width="60%">
+
 
