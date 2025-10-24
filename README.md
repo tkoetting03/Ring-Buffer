@@ -116,6 +116,16 @@ Which gives us the output:
 
 ## Reading and Writing to the Ring Buffer
 
-Our program works but it isn't, well, very useful, we can't really write or read intuitive we have to alter the code each time to print a value that the pointer points to in the buffer. 
+Our program works but it isn't, well, very useful, we can't really write or read intuitive we have to alter the code each time to print a value that the pointer points to in the buffer. First of all lets start by using structs to create an "object" which describes the buffer, its variables, and its pointers. 
 
+```
+struct ringBuffer {
+    int *buffer;
+    
+
+}
+
+Our pointer, "buffer", points to the buffer itself in memory, 
+
+<img src="/images/structbuffer.png" alt="Buffer Ring" title="Buffer Ring 2" width="60%">
 
