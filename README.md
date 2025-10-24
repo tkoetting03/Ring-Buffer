@@ -130,6 +130,6 @@ struct ringBuffer {
 
 Our pointer, "buffer", points to the first element in the buffer in memory, 
 
-<img src="/images/structbuffer.png" alt="Buffer Ring" title="Buffer Ring 2" width="60%">
+<img src="/images/structbuffernew.png" alt="Buffer Ring" title="Buffer Ring 2" width="60%">
 
 
