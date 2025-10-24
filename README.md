@@ -160,7 +160,7 @@ Each time we type
 ```
 pointerStruct->thing
 ```
-We are referencing a part of our struct that we defined earlier using the pointer the struct we set, "pointerStruct". 
+We are referencing a part of our struct that we defined earlier using the pointer that points to the struct, "pointerStruct". 
 
 Our function is no good though without having actual values assigned to our struct variables, thus we need an initialize function that will create a blank ring buffer with our chosen capacity (16):
 
