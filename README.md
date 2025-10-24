@@ -132,4 +132,4 @@ Our pointer, "buffer", points to the first element in the buffer in memory,
 
 <img src="/images/structbuffernew.png" alt="Buffer Ring" title="Buffer Ring 2" width="60%">
 
-
+We also have our capacity, which is the number of elements we can store in the buffer, our "head"; which is the index where our next write will occur, our "tail"; which is the index where our next read will occur, and "stored"; which is the number of elements stored in the buffer (maximum of 16).
