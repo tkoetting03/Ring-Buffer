@@ -220,4 +220,59 @@ void pop(ringBuffer *pointerStruct, int *outputLocation) {
 }
 ```
 
+## Creating and Destroying a Ring Buffer
+
+Now we need to create a way by which we might create a ring buffer or destroy the one we already have. We have out init function already which creates our ring buffer so now we need a way to destroy it. We can accomplish this using the free operation. We first free the array in memory which ringBuffer->buffer points to:
+
+```
+free(ringBuffer->buffer);
+```
+
+Then we want to free the struct object itself (ringBuffer):
+
+```
+free(ringBuffer);
+```
+## Lesser Functions
+
+We will now add some smaller functions to provide basic functionality to compliment what we already have with our code. First, we may want to check the size of our ring buffer (how many elements are stored in it), so we will need to write a function which returns the value stored in "ringBuffer->stored".
+
+```
+int ringSize(ringBuffer *pointerStruct) {
+    return ringBuffer->stored;
+}
+```
+
+Next we want a function which will return to us what our capacity (what the maximum amount of elements that can be stored is) for the ring buffer is. 
+
+```
+int ringCap(ringBuffer *pointerStruct) {
+    return ringBuffer->capacity;
+}
+```
+
+Now we want to write a function to check if the ring buffer is full, we will acccomplish this by checking whether the "stored" value is the same as the "capacity" value in our ringBuffer struct. 
+
+```
+bool ringFull(ringBuffer *pointerStruct) {
+    return ringBuffer->capacity == ringBuffer->stored;
+}
+```
+
+And finally a function to tell us whether the ring buffer is empty or not (check if stored = 0).
+
+```
+bool ringEmpty(ringBuffer *pointerStruct) {
+    return ringBuffer->stored == 0;
+}
+```
+
+## Error Protection
+
+
+
+## Adding a Header & Source File
+
+Up until now we have been using a source file for everything with a main function tacked onto it, for best practices though we should create our header file, main file, and source file. 
+
 
