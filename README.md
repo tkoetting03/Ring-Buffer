@@ -235,7 +235,7 @@ free(ringBuffer);
 ```
 ## Lesser Functions
 
-We will now add some smaller functions to provide basic functionality to compliment what we already have with our code. First, we may want to check the size of our ring buffer (how many elements are stored in it), so we will need to write a function which returns the value stored in "ringBuffer->stored".
+We will now add some smaller functions to provide basic functionality to compliment what we already have with our code. First, we may want to check the size of our ring buffer (how many elements are stored in it), so we will need to write a function which returns the value stored in "pointerStruct->stored".
 
 ```
 int ringSize(ringBuffer *pointerStruct) {
