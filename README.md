@@ -239,7 +239,7 @@ We will now add some smaller functions to provide basic functionality to complim
 
 ```
 int ringSize(ringBuffer *pointerStruct) {
-    return ringBuffer->stored;
+    return pointerStruct->stored;
 }
 ```
 
@@ -247,7 +247,7 @@ Next we want a function which will return to us what our capacity (what the maxi
 
 ```
 int ringCap(ringBuffer *pointerStruct) {
-    return ringBuffer->capacity;
+    return pointerStruct->capacity;
 }
 ```
 
@@ -255,7 +255,7 @@ Now we want to write a function to check if the ring buffer is full, we will acc
 
 ```
 bool ringFull(ringBuffer *pointerStruct) {
-    return ringBuffer->capacity == ringBuffer->stored;
+    return pointerStruct->capacity == pointerStruct->stored;
 }
 ```
 
@@ -263,7 +263,7 @@ And finally a function to tell us whether the ring buffer is empty or not (check
 
 ```
 bool ringEmpty(ringBuffer *pointerStruct) {
-    return ringBuffer->stored == 0;
+    return pointerStruct->stored == 0;
 }
 ```
 
