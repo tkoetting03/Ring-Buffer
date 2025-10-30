@@ -225,7 +225,7 @@ void pop(ringBuffer *pointerStruct, int *outputLocation) {
 Now we need to create a way by which we might create a ring buffer or destroy the one we already have. We have out init function already which creates our ring buffer so now we need a way to destroy it. We can accomplish this using the free operation. We first free the array in memory which ringBuffer->buffer points to:
 
 ```
-free(ringBuffer->buffer);
+free(pointerStruct->buffer);
 ```
 
 Then we want to free the struct object itself (ringBuffer):
