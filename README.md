@@ -269,7 +269,7 @@ bool ringEmpty(ringBuffer *pointerStruct) {
 
 ## Error Protection
 
-Our code up until this point is fine if an user knows the way in which to use the code (us), but other than that, we have really no checks to keep our code from being taken apart and led out to slaughter by an unknowing user. First lets begin by making a few enums that we can assign to different error code valies. 
+Our code up until this point is fine if an user (us) knows the way in which to use the code, but other than that, we have really no checks to keep our code from being taken apart and led out to slaughter by an unknowing user. First lets begin by making a few enums that we can assign to different error code valies. 
 
 ```
 typedef enum { noError = 0, argError = -1, capError = -2, allocError = -3, fullError = -4, emptyError = -5 } ringError;
