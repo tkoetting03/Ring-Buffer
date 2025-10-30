@@ -269,7 +269,31 @@ bool ringEmpty(ringBuffer *pointerStruct) {
 
 ## Error Protection
 
+Our code up until this point is fine if an user knows the way in which to use the code (us), but other than that, we have really no checks to keep our code from being taken apart and led out to slaughter by an unknowing user. First lets begin by making a few enums that we can assign to different error code valies. 
 
+```
+typedef enum { noError = 0, argError = -1, capError = -2, allocError = -3, fullError = -4, emptyError = -5 } ringError;
+```
+Our first enum will be "noError", which is the code which is passed when there are no errors. We then have "argError", which will indicate that an invalid argument has been passed to a function, most likely when a ring buffer has not been allocated yet and is NULL. Our next error is "capError", which triggers when our given capacity is invalid (i.e -1, not a power of 2). Next is the "allocError" error, which triggers when memory cannot be allocated for the ring buffer while it is being initialized. Finally our two last errors are "fullError" and "emptyError", and are the errors raised when trying to push to a full buffer and trying to pop from an empty buffer respectively. 
+
+Let's start with capError, we will need to check that our capacity is non-negative, a whole integer, and a power of 2. While it would be nice to use modulo here, we unfortanely cannot due to our imaginary computation restraints, so we will have to use bitwise operators to accomplish this, along with a _Generic macro that allows us a basic way of discerning whether our capacity variable is an integer or a decimal. 
+
+
+```
+#define isInteger(x) _Generic((x), float: false, double: false, long double: false, default: true)
+
+if !(capacity > 0 | isInteger(capacity) | (capacity & (capacity - 1) == 0)) {
+    return capError;
+}
+```
+
+To determine whether a number is can be expressed as a power of 2, we can use the feature of binary numbers that a number which is a power of 2, let us say 8, is always expressed as a single 1 with trailing zeros, and the number before it is all 1s up to that point. Using 8 and 7 as an example we have:
+
+```
+8 = 1000
+7 = 0111
+```
+Bitwise ANDing them together should always result in zero. 
 
 ## Adding a Header & Source File
 
