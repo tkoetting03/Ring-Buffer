@@ -222,7 +222,15 @@ void pop(ringBuffer *pointerStruct, int *outputLocation) {
 
 ## Creating and Destroying a Ring Buffer
 
-Now we need to create a way by which we might create a ring buffer or destroy the one we already have. We have out init function already which creates our ring buffer so now we need a way to destroy it. We can accomplish this using the free operation. We first free the array in memory which ringBuffer->buffer points to:
+Now we need to create a way by which we might create a ring buffer or destroy the one we already have. We have our init function already which creates our ring buffer but this is not robust enough, we will need to use malloc to give us a discrete part of memory in which we can store the buffer.
+
+```
+pointerStruct->buffer = malloc(capacity * sizeof *pointerStruct->buffer);
+```
+
+Malloc requires the size in bytes which it will ask the heap to reserve, so in order to calculate this we multiply capacity (number of elements) times "sizeof *pointerStruct->buffer" which gives us the number of bytes the element being pointed to by pointerStruct->buffer, thus multiplying these two together gives us the number of bytes the full buffer would take up.
+
+We now need a way to destroy the ring. We can accomplish this using the free operation. We first free the array in memory which ringBuffer->buffer points to:
 
 ```
 free(pointerStruct->buffer);
@@ -294,6 +302,20 @@ To determine whether a number is can be expressed as a power of 2, we can use th
 7 = 0111
 ```
 Bitwise ANDing them together should always result in zero. 
+
+We will also add some error checks for the init function:
+
+```
+if (!pointerStruct) {
+    return argError;
+}
+
+if (!pointerStruct->buffer) {
+    return allocError;
+}
+```
+
+These two IF statements above check if: 1) the struct exists, has been allocated, and that the pointer points to it, and 2) the buffer exists, has been allocated, and that the pointer points to it. 
 
 ## Adding a Header & Source File
 
