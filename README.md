@@ -290,7 +290,7 @@ Let's start with capError, we will need to check that our capacity is non-negati
 ```
 #define isInteger(x) _Generic((x), float: false, double: false, long double: false, default: true)
 
-if !(capacity > 0 | isInteger(capacity) | (capacity & (capacity - 1) == 0)) {
+if (!(capacity > 0) | !isInteger(capacity) | !((capacity & (capacity - 1) == 0))) {
     return capError;
 }
 ```
