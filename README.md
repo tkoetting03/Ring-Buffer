@@ -306,16 +306,58 @@ Bitwise ANDing them together should always result in zero.
 We will also add some error checks for the init function:
 
 ```
-if (!pointerStruct) {
-    return argError;
+void ringBuffer_init(ringBuffer *pointerStruct, int capacity) {
+    
+    if (!pointerStruct) {
+        return argError;
+    }
+    
+    if (!pointerStruct->buffer) {
+        return allocError;
+    }
+
+    pointerStruct->capacity = capacity;
+    pointerStruct->mask = capacity - 1;
+    pointerStruct->head = 0;
+    pointerStruct->tail = 0;
+    pointerStruct->stored = 0;
 }
 
-if (!pointerStruct->buffer) {
-    return allocError;
-}
 ```
 
 These two IF statements above check if: 1) the struct exists, has been allocated, and that the pointer points to it, and 2) the buffer exists, has been allocated, and that the pointer points to it. 
+
+
+Let's now move on to the main pop and push functions. A lot of the preventitive measures we can take are fairly simple. For one, for both push and pop, we need to check if the arguments (passed pointers to buffers, output addresses, etc) passed are valid. Next we need to check, if we are popping, if the buffer is empty, or if we are pushing, if the buffer is full.
+
+```
+void push(ringBuffer *pointerStruct, int pushValue) {
+    if (!pointerStruct | !pointerStruct->buffer) {
+        return argError;
+}
+    if (ringFull(pointerStruct)) {
+        return fullError;
+}
+
+    pointerStruct->buffer[pointerStruct->head] = pushValue;
+    pointerStruct->head = (pointerStruct->head + 1) & pointerStruct->mask;
+    pointerStruct->stored++;
+}
+
+void pop(ringBuffer *pointerStruct, int *outputLocation) {
+    if (!pointerStruct | !pointerStruct->buffer | !outputLocation) {
+            return argError;
+    }
+    if (ringEmpty(pointerStruct)) {
+        return emptyError;
+    }
+
+    *outputLocation = pointerStruct->buffer[pointerStruct->tail];
+    pointerStruct->tail = (pointerStruct->tail + 1) & pointerStruct-> mask;
+    pointerStruct->stored--;
+}
+```
+
 
 ## Adding a Header & Source File
 
