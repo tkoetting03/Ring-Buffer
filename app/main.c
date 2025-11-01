@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "ring_buffer.h"
-#include "ring_buffer.c"
+#include "include/ring_buffer.h"
+#include "src/ring_buffer.c"
 
 
 int main(void) {
