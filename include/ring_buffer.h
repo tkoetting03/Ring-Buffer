@@ -1,7 +1,6 @@
 #ifndef RING_BUFFER_H
 #define RING_BUFFER_H
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
