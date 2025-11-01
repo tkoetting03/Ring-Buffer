@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "ring_buffer.h"
+#include "/workspaces/Ring-Buffer/include/ring_buffer.h"
 
 
-typedef struct {
+typedef struct ringBuffer {
     int *buffer;
     int capacity;
     int mask;
@@ -13,10 +13,14 @@ typedef struct {
     int stored;
 } ringBuffer;
 
-#define isInteger(x) _Generic((x), float: false, double: false, long double: false, default: true)
+#define isInteger(x) _Generic((x), float: true, double: true, long double: true, default: false)
 
 int ringSize(ringBuffer *pointerStruct) {
     return pointerStruct->stored;
+}
+
+int isPowerOfTwo(int x) {
+    return x > 0 && (x & (x - 1)) == 0;
 }
 
 int ringCap(ringBuffer *pointerStruct) {
@@ -31,30 +35,45 @@ bool ringEmpty(ringBuffer *pointerStruct) {
     return pointerStruct->stored == 0;
 }
 
-void ringBuffer_init(ringBuffer *pointerStruct, int capacity) {
+void destroyRing(ringBuffer *pointerStruct) {
+    free(pointerStruct->buffer); free(pointerStruct);
+}
 
-    if (!(capacity > 0) | !isInteger(capacity) | !((capacity & (capacity - 1) == 0))) {
+ringError ringBuffer_init(ringBuffer *pointerStruct, size_t capacity) {
+
+    if (capacity < 0) {
         return capError;
     }
+
+    if (isInteger(capacity)) {
+        return capError;
+    }
+
+    if (!isPowerOfTwo(capacity)) {
+        return capError;
+    }
+    
     if (!pointerStruct) {
         return argError;
     }
     
-    if (!pointerStruct->buffer) {
-        return allocError;
-    }
-    
-    pointerStruct->buffer = malloc(capacity * sizeof *pointerStruct->buffer);
-
+    pointerStruct->buffer = malloc(capacity * (sizeof *pointerStruct->buffer));
     pointerStruct->capacity = capacity;
     pointerStruct->mask = capacity - 1;
     pointerStruct->head = 0;
     pointerStruct->tail = 0;
     pointerStruct->stored = 0;
+
+    if (!pointerStruct->buffer) {
+        return allocError;
+    }
+
+
+    return noError;
 }
 
 
-void push(ringBuffer *pointerStruct, int pushValue) {
+ringError push(ringBuffer *pointerStruct, int pushValue) {
     if (!pointerStruct | !pointerStruct->buffer) {
         return argError;
 }
@@ -65,9 +84,11 @@ void push(ringBuffer *pointerStruct, int pushValue) {
     pointerStruct->buffer[pointerStruct->head] = pushValue;
     pointerStruct->head = (pointerStruct->head + 1) & pointerStruct->mask;
     pointerStruct->stored++;
+
+    return noError;
 }
 
-void pop(ringBuffer *pointerStruct, int *outputLocation) {
+ringError pop(ringBuffer *pointerStruct, int *outputLocation) {
     if (!pointerStruct | !pointerStruct->buffer | !outputLocation) {
             return argError;
     }
@@ -78,5 +99,7 @@ void pop(ringBuffer *pointerStruct, int *outputLocation) {
     *outputLocation = pointerStruct->buffer[pointerStruct->tail];
     pointerStruct->tail = (pointerStruct->tail + 1) & pointerStruct-> mask;
     pointerStruct->stored--;
+
+    return noError;
 }
 

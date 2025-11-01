@@ -1,12 +1,13 @@
 #include <stdio.h>
-#include "include/ring_buffer.h"
-#include "src/ring_buffer.c"
+#include "/workspaces/Ring-Buffer/include/ring_buffer.h"
+#include "/workspaces/Ring-Buffer/src/ring_buffer.c"
 
 
 int main(void) {
-    const int capacity = 16;  
+    const int capacity = 8;  
 
     ringBuffer rb;
+
 
     ringBuffer_init(&rb, capacity);
 
@@ -14,11 +15,12 @@ int main(void) {
         int val = i * 10;
         push(&rb, val);
         printf("push: %d \n", val);
-    
-        for (int j = 0; j < capacity; ++j) {
-            printf("%d, ", rb.buffer[j]);
-        }
-
     }
+
+    for (int j = 0; j < rb.capacity; ++j) {
+        printf("%d, ", rb.buffer[j]);
+    }
+
+
     return 0;
 }
