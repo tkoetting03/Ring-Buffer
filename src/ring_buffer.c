@@ -13,8 +13,6 @@ typedef struct {
     int stored;
 } ringBuffer;
 
-typedef enum { noError = 0, argError = -1, capError = -2, allocError = -3, fullError = -4, emptyError = -5 } ringError;
-
 #define isInteger(x) _Generic((x), float: false, double: false, long double: false, default: true)
 
 int ringSize(ringBuffer *pointerStruct) {
