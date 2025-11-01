@@ -241,6 +241,15 @@ Then we want to free the struct object itself (ringBuffer):
 ```
 free(ringBuffer);
 ```
+So we get the function
+
+```
+void destroyRing(ringBuffer *pointerStruct) {
+    free(pointerStruct->buffer);
+    free(pointerStruct);
+}
+```
+
 ## Lesser Functions
 
 We will now add some smaller functions to provide basic functionality to compliment what we already have with our code. First, we may want to check the size of our ring buffer (how many elements are stored in it), so we will need to write a function which returns the value stored in "pointerStruct->stored".
@@ -290,7 +299,19 @@ Let's start with capError, we will need to check that our capacity is non-negati
 ```
 #define isInteger(x) _Generic((x), float: false, double: false, long double: false, default: true)
 
-if (!(capacity > 0) | !isInteger(capacity) | !((capacity & (capacity - 1) == 0))) {
+int isPowerOfTwo(int x) {
+    return x > 0 && (x & (x - 1)) == 0;
+}
+
+if (capacity < 0) {
+    return capError;
+}
+
+if (isInteger(capacity)) {
+    return capError;
+}
+
+if (!isPowerOfTwo(capacity)) {
     return capError;
 }
 ```
@@ -306,23 +327,42 @@ Bitwise ANDing them together should always result in zero.
 We will also add some error checks for the init function:
 
 ```
-void ringBuffer_init(ringBuffer *pointerStruct, int capacity) {
+int isPowerOfTwo(int x) {
+    return x > 0 && (x & (x - 1)) == 0;
+}
+
+ringError ringBuffer_init(ringBuffer *pointerStruct, size_t capacity) {
+
+    if (capacity < 0) {
+        return capError;
+    }
+
+    if (isInteger(capacity)) {
+        return capError;
+    }
+
+    if (!isPowerOfTwo(capacity)) {
+        return capError;
+    }
     
     if (!pointerStruct) {
         return argError;
     }
     
-    if (!pointerStruct->buffer) {
-        return allocError;
-    }
-
+    pointerStruct->buffer = malloc(capacity * (sizeof *pointerStruct->buffer));
     pointerStruct->capacity = capacity;
     pointerStruct->mask = capacity - 1;
     pointerStruct->head = 0;
     pointerStruct->tail = 0;
     pointerStruct->stored = 0;
-}
 
+    if (!pointerStruct->buffer) {
+        return allocError;
+    }
+
+
+    return noError;
+}
 ```
 
 These two IF statements above check if: 1) the struct exists, has been allocated, and that the pointer points to it, and 2) the buffer exists, has been allocated, and that the pointer points to it. 
@@ -331,7 +371,7 @@ These two IF statements above check if: 1) the struct exists, has been allocated
 Let's now move on to the main pop and push functions. A lot of the preventitive measures we can take are fairly simple. For one, for both push and pop, we need to check if the arguments (passed pointers to buffers, output addresses, etc) passed are valid. Next we need to check, if we are popping, if the buffer is empty, or if we are pushing, if the buffer is full.
 
 ```
-void push(ringBuffer *pointerStruct, int pushValue) {
+ringError push(ringBuffer *pointerStruct, int pushValue) {
     if (!pointerStruct | !pointerStruct->buffer) {
         return argError;
 }
@@ -342,9 +382,11 @@ void push(ringBuffer *pointerStruct, int pushValue) {
     pointerStruct->buffer[pointerStruct->head] = pushValue;
     pointerStruct->head = (pointerStruct->head + 1) & pointerStruct->mask;
     pointerStruct->stored++;
+
+    return noError;
 }
 
-void pop(ringBuffer *pointerStruct, int *outputLocation) {
+ringError pop(ringBuffer *pointerStruct, int *outputLocation) {
     if (!pointerStruct | !pointerStruct->buffer | !outputLocation) {
             return argError;
     }
@@ -355,6 +397,8 @@ void pop(ringBuffer *pointerStruct, int *outputLocation) {
     *outputLocation = pointerStruct->buffer[pointerStruct->tail];
     pointerStruct->tail = (pointerStruct->tail + 1) & pointerStruct-> mask;
     pointerStruct->stored--;
+
+    return noError;
 }
 ```
 
@@ -367,22 +411,21 @@ Up until now we have been using a source file for everything with a main functio
 #ifndef RING_BUFFER_H
 #define RING_BUFFER_H
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef struct ringBuffer ringBuffer;
 
+typedef struct ringBuffer ringBuffer;
 typedef enum { noError = 0, argError = -1, capError = -2, allocError = -3, fullError = -4, emptyError = -5 } ringError;
 
 int ringSize(ringBuffer *pointerStruct);
 int ringCap(ringBuffer *pointerStruct);
 bool ringFull(ringBuffer *pointerStruct);
 bool ringEmpty(ringBuffer *pointerStruct);
-void ringBuffer_init(ringBuffer *pointerStruct, int capacity);
-void push(ringBuffer *pointerStruct, int pushValue);
-void pop(ringBuffer *pointerStruct, int *outputLocation);
+ringError ringBuffer_init(ringBuffer *pointerStruct, size_t capacity);
+ringError push(ringBuffer *pointerStruct, int pushValue);
+ringError pop(ringBuffer *pointerStruct, int *outputLocation);
 
 #endif
 ```
