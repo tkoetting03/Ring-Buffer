@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In this repository I am going to be describing the code and concepts relevant to this project. 
+In this repository I am going to be describing the code and concepts relevant to creating a ring buffer in C. 
 
 ## Creating the Ring Buffer
 
