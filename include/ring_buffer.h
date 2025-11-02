@@ -16,5 +16,6 @@ bool ringEmpty(ringBuffer *pointerStruct);
 ringError ringBuffer_init(ringBuffer *pointerStruct, size_t capacity);
 ringError push(ringBuffer *pointerStruct, int pushValue);
 ringError pop(ringBuffer *pointerStruct, int *outputLocation);
+ringError pushOver(ringBuffer *pointerStruct, int pushValue);
 
 #endif

@@ -36,7 +36,8 @@ bool ringEmpty(ringBuffer *pointerStruct) {
 }
 
 void destroyRing(ringBuffer *pointerStruct) {
-    free(pointerStruct->buffer); free(pointerStruct);
+    free(pointerStruct->buffer);
+    free(pointerStruct);
 }
 
 ringError ringBuffer_init(ringBuffer *pointerStruct, size_t capacity) {
@@ -81,11 +82,22 @@ ringError push(ringBuffer *pointerStruct, int pushValue) {
         return fullError;
 }
 
+
     pointerStruct->buffer[pointerStruct->head] = pushValue;
     pointerStruct->head = (pointerStruct->head + 1) & pointerStruct->mask;
     pointerStruct->stored++;
 
     return noError;
+}
+
+ringError pushOver(ringBuffer *pointerStruct, int pushValue) {
+
+    pointerStruct->buffer[pointerStruct->head] = pushValue;
+    pointerStruct->head = (pointerStruct->head + 1) & pointerStruct->mask;
+    pointerStruct->stored++;
+    
+    return noError;
+
 }
 
 ringError pop(ringBuffer *pointerStruct, int *outputLocation) {

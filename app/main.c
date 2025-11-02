@@ -11,9 +11,14 @@ int main(void) {
 
     ringBuffer_init(&rb, capacity);
 
-    for (int i = 0; i < capacity; ++i) {
+    for (int i = 0; i < capacity + 2; ++i) {
         int val = i * 10;
-        push(&rb, val);
+        if (rb.stored == rb.capacity) {
+            pushOver(&rb, val);
+        }
+        else {
+            push(&rb, val);
+        }
         printf("push: %d \n", val);
     }
 
