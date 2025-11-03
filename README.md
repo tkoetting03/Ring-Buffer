@@ -403,7 +403,7 @@ ringError pop(ringBuffer *pointerStruct, int *outputLocation) {
 ```
 
 
-## Adding a Header & Source File
+## Adding a Header, Application, & Source File
 
 Up until now we have been using a source file for everything with a main function tacked onto it, for best practices though we should create our header file, main file, and source file. We will begin by moving our enum declaration into the header, then define an opaque type for our struct. We will then write all our function prototypes, and finally, use header guards.
 
@@ -429,6 +429,27 @@ ringError pop(ringBuffer *pointerStruct, int *outputLocation);
 
 #endif
 ```
+
+Our source file will be the functions we have previously defined as shown above, but we will need to write a main function to put into our "app" folder. We will first need to include our source and header files, as well as define our capacity as some constant integer value that is a power of 2. Then we will need to declare a variable using our ringBuffer struct to create our ring buffer object that we will be using, then finally we will initialize the ring buffer, push values to it until it is full, print all of its contents, pop all of its contents off, and then finally once again print all of its contents. We can start by declaring our capacity and ringBuffer variables: 
+
+```
+const int capacity = 8;  
+ringBuffer rb;
+```
+
+Next we will initialize our ring buffer by passing the address of our ringBuffer object "rb" and the specified capacity:
+
+```
+ringBuffer_init(&rb, capacity);
+```
+
+Now we will create a for loop which adds values in increments of 10 starting from ten and ranging to  $(\text{capacity} + 2)\times 10$ 
+
+
+## Overwriting On Pushes
+
+We can now push
+
 
 
 
