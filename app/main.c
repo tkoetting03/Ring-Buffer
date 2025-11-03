@@ -14,17 +14,37 @@ int main(void) {
     for (int i = 0; i < capacity + 2; ++i) {
         int val = i * 10;
         if (rb.stored == rb.capacity) {
-            pushOver(&rb, val);
+            if (pushOver(&rb, val) == noError) {
+                printf("Push: %d \n", val);
         }
         else {
-            push(&rb, val);
+            printf("Error!\n");
+    }
         }
-        printf("push: %d \n", val);
+        else {
+            if (push(&rb, val) == noError) {
+                printf("Push: %d \n", val);
+            }
+            else {
+                printf("Error!\n");
+            }
+        }
+        
     }
+    printf("Elements Stored: %d\n", rb.stored);    
+    printRing(&rb);
 
-    for (int j = 0; j < rb.capacity; ++j) {
-        printf("%d, ", rb.buffer[j]);
+    for (int k = 0; k < rb.capacity; ++k) {
+        int output;
+        if (pop(&rb, &output) == noError) {
+            printf("Pop: %d\n", output);
+        }
+        else {
+            printf("Error!\n");
+        }
     }
+    printf("Elements Stored: %d\n", rb.stored);    
+    printRing(&rb);
 
 
     return 0;

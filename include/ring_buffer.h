@@ -17,5 +17,7 @@ ringError ringBuffer_init(ringBuffer *pointerStruct, size_t capacity);
 ringError push(ringBuffer *pointerStruct, int pushValue);
 ringError pop(ringBuffer *pointerStruct, int *outputLocation);
 ringError pushOver(ringBuffer *pointerStruct, int pushValue);
+void destroyRing(ringBuffer *pointerStruct);
+void printRing(ringBuffer *pointerStruct);
 
 #endif

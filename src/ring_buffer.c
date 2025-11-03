@@ -40,6 +40,24 @@ void destroyRing(ringBuffer *pointerStruct) {
     free(pointerStruct);
 }
 
+void printRing(ringBuffer *pointerStruct) {
+    if (ringEmpty(pointerStruct)) {
+        printf("The Buffer is Empty\n");
+    }
+    else{
+        for (int j = 0; j < pointerStruct->stored; ++j) {
+            int index = (pointerStruct->tail + j) & pointerStruct->mask;
+            printf("%d", pointerStruct->buffer[index]);
+            if (j + 1 < pointerStruct->capacity) {
+                printf(", ");
+            }
+        }
+        printf("\n");
+    }
+}
+
+
+
 ringError ringBuffer_init(ringBuffer *pointerStruct, size_t capacity) {
 
     if (capacity < 0) {
@@ -94,14 +112,13 @@ ringError pushOver(ringBuffer *pointerStruct, int pushValue) {
 
     pointerStruct->buffer[pointerStruct->head] = pushValue;
     pointerStruct->head = (pointerStruct->head + 1) & pointerStruct->mask;
-    pointerStruct->stored++;
     
     return noError;
 
 }
 
 ringError pop(ringBuffer *pointerStruct, int *outputLocation) {
-    if (!pointerStruct | !pointerStruct->buffer | !outputLocation) {
+    if (!pointerStruct || !pointerStruct->buffer || !outputLocation) {
             return argError;
     }
     if (ringEmpty(pointerStruct)) {
@@ -109,6 +126,7 @@ ringError pop(ringBuffer *pointerStruct, int *outputLocation) {
     }
 
     *outputLocation = pointerStruct->buffer[pointerStruct->tail];
+    pointerStruct->buffer[pointerStruct->tail] = 0;
     pointerStruct->tail = (pointerStruct->tail + 1) & pointerStruct-> mask;
     pointerStruct->stored--;
 
