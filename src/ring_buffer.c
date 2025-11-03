@@ -4,38 +4,38 @@
 #include "/workspaces/Ring-Buffer/include/ring_buffer.h"
 
 
-typedef struct ringBuffer {
-    int *buffer;
-    int capacity;
-    int mask;
-    int head;
-    int tail;
-    int stored;
+typedef struct ringBuffer { // create the ringBuffer "object" (struct)
+    int *buffer; // pointer to the ring buffer in memory
+    int capacity; // capacity of the ring buffer
+    int mask; // mask for bitwise ANDing in place of modulo
+    int head; // pointer to next index to be written in
+    int tail; // pointer to next index to be popped
+    int stored; // number of elements stored in the buffer
 } ringBuffer;
 
-#define isInteger(x) _Generic((x), float: true, double: true, long double: true, default: false)
+#define isInteger(x) _Generic((x), float: true, double: true, long double: true, default: false) // creates a function which checks the type of a variable and returns ture if it is a decimal and false if it is an integer
 
-int ringSize(ringBuffer *pointerStruct) {
+int ringSize(ringBuffer *pointerStruct) { //function that returns the number of stored elements in the buffer
     return pointerStruct->stored;
 }
 
-int isPowerOfTwo(int x) {
+int isPowerOfTwo(int x) { // function that checks if a number is expressable is a power of two (x=2^n)
     return x > 0 && (x & (x - 1)) == 0;
 }
 
-int ringCap(ringBuffer *pointerStruct) {
+int ringCap(ringBuffer *pointerStruct) { // function that returns the buffer's maximum element capacity
     return pointerStruct->capacity;
 }
 
-bool ringFull(ringBuffer *pointerStruct) {
+bool ringFull(ringBuffer *pointerStruct) { // function that returns TRUE if the buffer is full and FALSE if it is not full
     return pointerStruct->capacity == pointerStruct->stored;
 }
 
-bool ringEmpty(ringBuffer *pointerStruct) {
+bool ringEmpty(ringBuffer *pointerStruct) { // function that returns TRUE if the buffer is empty and FALSE if it is not empty
     return pointerStruct->stored == 0;
 }
 
-void destroyRing(ringBuffer *pointerStruct) {
+void destroyRing(ringBuffer *pointerStruct) {  // function that erases the buffer
     free(pointerStruct->buffer);
     free(pointerStruct);
 }
