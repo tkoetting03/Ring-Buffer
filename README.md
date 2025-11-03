@@ -283,6 +283,10 @@ bool ringEmpty(ringBuffer *pointerStruct) {
     return pointerStruct->stored == 0;
 }
 ```
+## Overwriting On Pushes
+
+We can now push and pop from our main function, but 
+
 
 ## Error Protection
 
@@ -402,10 +406,6 @@ ringError pop(ringBuffer *pointerStruct, int *outputLocation) {
 }
 ```
 
-## Overwriting On Pushes
-
-We can now push
-
 
 ## Adding a Header, Application, & Source File
 
@@ -458,36 +458,9 @@ for (int i = 0; i < capacity + 2; ++i) {
     else {
         push(&rb, val);
     }
-    printf("push: %d \n", val);
+    printf("Push: %d \n", val);
 }
 ```
 
 We include a print function here to see what has been pushed to double check with our final print statement of the full buffer specified below.
-
-Next we will create a simple for loop to iterate throguh the elements in the buffer and print each one out in a comma-separataed manner until the last iteration:
-
-```
-for (int j = 0; j < rb.capacity; ++j) {
-    printf("%d", rb.buffer[j]);
-    if (j + 1 < rb.capacity) printf(", ");
-}
-printf("\n");
-```
-
-Running this code we get: 
-
-```
-push: 0 
-push: 10 
-push: 20 
-push: 30 
-push: 40 
-push: 50 
-push: 60 
-push: 70 
-push: 80 
-push: 90 
-80, 90, 20, 30, 40, 50, 60, 70
-```
-
 
