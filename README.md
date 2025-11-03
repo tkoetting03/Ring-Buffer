@@ -402,6 +402,10 @@ ringError pop(ringBuffer *pointerStruct, int *outputLocation) {
 }
 ```
 
+## Overwriting On Pushes
+
+We can now push
+
 
 ## Adding a Header, Application, & Source File
 
@@ -443,14 +447,47 @@ Next we will initialize our ring buffer by passing the address of our ringBuffer
 ringBuffer_init(&rb, capacity);
 ```
 
-Now we will create a for loop which adds values in increments of 10 starting from ten and ranging to  $(\text{capacity} + 2)\times 10$ 
+Now we will create a for loop which adds values in increments of 10 starting from ten and ranging to  $(\text{capacity} + 2)\times 10$ in order to test the programs overwriting capabilities. We will check first with an if statement to see if our stored elements counter has reached our buffer's capacity, and if this is the case we will instead call our "pushOver" function to overwrite the next element in the buffer, if this is not the case though we will simply push the value into the empty space. 
 
+```
+for (int i = 0; i < capacity + 2; ++i) {
+    int val = i * 10;
+    if (rb.stored == rb.capacity) {
+        pushOver(&rb, val);
+    }
+    else {
+        push(&rb, val);
+    }
+    printf("push: %d \n", val);
+}
+```
 
-## Overwriting On Pushes
+We include a print function here to see what has been pushed to double check with our final print statement of the full buffer specified below.
 
-We can now push
+Next we will create a simple for loop to iterate throguh the elements in the buffer and print each one out in a comma-separataed manner until the last iteration:
 
+```
+for (int j = 0; j < rb.capacity; ++j) {
+    printf("%d", rb.buffer[j]);
+    if (j + 1 < rb.capacity) printf(", ");
+}
+printf("\n");
+```
 
+Running this code we get: 
 
+```
+push: 0 
+push: 10 
+push: 20 
+push: 30 
+push: 40 
+push: 50 
+push: 60 
+push: 70 
+push: 80 
+push: 90 
+80, 90, 20, 30, 40, 50, 60, 70
+```
 
 
