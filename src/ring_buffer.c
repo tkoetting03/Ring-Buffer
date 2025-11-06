@@ -36,7 +36,6 @@ bool ringEmpty(ringBuffer *pointerStruct) { // function that returns TRUE if the
 }
 
 void destroyRing(ringBuffer *pointerStruct) {  // function that erases the buffer
-    free(pointerStruct->buffer);
     free(pointerStruct);
 }
 
