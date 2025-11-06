@@ -284,8 +284,18 @@ bool ringEmpty(ringBuffer *pointerStruct) {
 ```
 ## Overwriting On Pushes
 
-# Overwrite fuction
+We have an issue, once we reach capacity we cannot push anymore elements to the buffer until atleast one is popped, this may seem intuitive but I would like to add the functionality that if we, perhaps, gave the program 10 elements to push, it would push all ten by overwriting the first two with the last two. We will cause our overwrite function "pushOver", and it will work the same as our previous push function except that we are not limited by the capacity and will continuously place elements wherever the head may be. 
 
+```
+ringError pushOver(ringBuffer *pointerStruct, int pushValue) {
+
+    pointerStruct->buffer[pointerStruct->head] = pushValue;
+    pointerStruct->head = (pointerStruct->head + 1) & pointerStruct->mask;
+    
+    return noError;
+
+}
+```
 
 ## Error Protection
 
@@ -462,11 +472,113 @@ for (int i = 0; i < capacity + 2; ++i) {
 }
 ```
 
-We include a print function here to see what has been pushed to double check with our final print statement of the full buffer specified below.
+We include a print function here to see what has been pushed to double check with our final print statement of the full buffer specified below. Speaking of print functions, it is no fun if we can't actually see the contents of the buffer, so I will belatedly add a print function to display the elements in indexed order (starting at 0 and ending on 7 for a buffer of size 8). 
 
-# Print function
+```
+void printRing(ringBuffer *pointerStruct) {
+    if (ringEmpty(pointerStruct)) {
+        printf("The Buffer is Empty\n");
+    }
+    else{
+        for (int j = 0; j < pointerStruct->stored; ++j) {
+            int index = (pointerStruct->tail + j) & pointerStruct->mask;
+            printf("%d", pointerStruct->buffer[index]);
+            if (j + 1 < pointerStruct->capacity) {
+                printf(", ");
+            }
+        }
+        printf("\n");
+    }
+}
 
-# Main function
+```
 
-# Write a way to differentiate between errors in Main
+We first add a check to see if the ring is empty and print that message. Then we start with the first for loop, which interates from 0 to the number of stored elements. We then defined the index of where we should  begin, which I decided should be wherever the tail is, hence the bitwise AND of $\text{tail} + \text{j}$ and $\text{mask}$ will give us the index at which we want to start, so our starting index will only change if we pop values from the buffer. We then print commas until the last iteration and get strings like the following: 
+
+```
+0, 10, 20, 30, 40, 50, 60, 70
+```
+
+
+### Main function
+
+Now we can construct our main function. I want the main function to push 10 values to a buffer of length 8 to demonstrate overwriting, then I want to print the contents of the buffer, pop all of the elements off, and finally display the buffer's contents one more time. 
+
+I figured it would be more intutitive to include all of the main function here with comments on the code instead of a succeeding paragraph giving an explanation given the length:
+
+```
+int main(void) {
+    const int capacity = 8;  // setting the capacity of the ring buffer to be 8
+
+    ringBuffer rb; // creating a ringBuffer variable rb
+
+
+    ringBuffer_init(&rb, capacity); // initializing the ringBuffer variable rb
+
+    for (int i = 0; i < capacity + 2; ++i) { // creating a loop that iterates two times more than the capacity of the ring buffer
+        int val = i * 10; // setting the pushed values to be 10 times whatever i is
+        if (rb.stored == rb.capacity) { // if the number of stored element is the same as the ring buffer capacity
+            if (pushOver(&rb, val) == noError) { // push the value using the pushOver function to overwrite the previous value
+                printf("Push: %d \n", val); // if there is no error print "Push: (value pushed)"
+        }
+            else {
+                printf("Error!\n"); // if there is an error print "Error!"
+    }
+        }
+        else { // if the number of stored elements is not equal to the ring buffer capacity
+            if (push(&rb, val) == noError) { // push the value to the buffer
+                printf("Push: %d \n", val);  // if there is no error print "Push: (value pushed)"
+            }
+            else {
+                printf("Error!\n"); // if there is an error print "Error!"
+            }
+        }
+        
+    }
+    printf("Elements Stored: %d\n", rb.stored); // print the number of elements stored in the ring buffer
+    printRing(&rb); // print the elements in the ring in sequential order
+
+    for (int k = 0; k < rb.capacity; ++k) { // creating a loop that iterates until k is the same size as the ring buffer capacity
+        int output; // creates an output variable for the popped element to be stored
+        if (pop(&rb, &output) == noError) { // pop the next element and store it at the address of output
+            printf("Pop: %d\n", output); // if there is no error print "Pop: (value popped)"
+        }
+        else {
+            printf("Error!\n"); // if there is an error print "Error!"
+        }
+    }
+    printf("Elements Stored: %d\n", rb.stored); // print the number of elements stored in the ring buffer
+    printRing(&rb); // print the elements in the ring in sequential order
+    destroyRing(rb.buffer); // free memory location of the rb buffer
+
+    return 0;
+}
+```
+
+Running our main function we get the output:
+
+```
+Push: 0 
+Push: 10 
+Push: 20 
+Push: 30 
+Push: 40 
+Push: 50 
+Push: 60 
+Push: 70 
+Push: 80 
+Push: 90 
+Elements Stored: 8
+80, 90, 20, 30, 40, 50, 60, 70
+Pop: 80
+Pop: 90
+Pop: 20
+Pop: 30
+Pop: 40
+Pop: 50
+Pop: 60
+Pop: 70
+Elements Stored: 0
+The Buffer is Empty
+```
 
