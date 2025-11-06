@@ -250,7 +250,11 @@ void destroyRing(ringBuffer *pointerStruct) {
 }
 ```
 
+# Fix destroyRing function
+
 ## Lesser Functions
+
+# Add Lesser Functions
 
 We will now add some smaller functions to provide basic functionality to compliment what we already have with our code. First, we may want to check the size of our ring buffer (how many elements are stored in it), so we will need to write a function which returns the value stored in "pointerStruct->stored".
 
@@ -285,7 +289,7 @@ bool ringEmpty(ringBuffer *pointerStruct) {
 ```
 ## Overwriting On Pushes
 
-We can now push and pop from our main function, but 
+# Overwrite fuction
 
 
 ## Error Protection
@@ -405,8 +409,6 @@ ringError pop(ringBuffer *pointerStruct, int *outputLocation) {
     return noError;
 }
 ```
-
-
 ## Adding a Header, Application, & Source File
 
 Up until now we have been using a source file for everything with a main function tacked onto it, for best practices though we should create our header file, main file, and source file. We will begin by moving our enum declaration into the header, then define an opaque type for our struct. We will then write all our function prototypes, and finally, use header guards.
@@ -466,4 +468,10 @@ for (int i = 0; i < capacity + 2; ++i) {
 ```
 
 We include a print function here to see what has been pushed to double check with our final print statement of the full buffer specified below.
+
+# Print function
+
+# Main function
+
+# Write a way to differentiate between errors in Main
 
