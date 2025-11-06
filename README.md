@@ -230,27 +230,22 @@ pointerStruct->buffer = malloc(capacity * sizeof *pointerStruct->buffer);
 
 Malloc requires the size in bytes which it will ask the heap to reserve, so in order to calculate this we multiply capacity (number of elements) times "sizeof *pointerStruct->buffer" which gives us the number of bytes the element being pointed to by pointerStruct->buffer, thus multiplying these two together gives us the number of bytes the full buffer would take up.
 
-We now need a way to destroy the ring. We can accomplish this using the free operation. We first free the array in memory which ringBuffer->buffer points to:
+We now need a way to destroy the ring. We can accomplish this using the free operation. We will free the spot in memory which pointerStruct->buffer points to, we can do this by using the "free" function:
 
 ```
-free(pointerStruct->buffer);
-```
-
-Then we want to free the struct object itself (ringBuffer):
-
-```
-free(ringBuffer);
-```
-So we get the function
-
-```
-void destroyRing(ringBuffer *pointerStruct) {
-    free(pointerStruct->buffer);
+void destroyRing(ringBuffer *pointerStruct) {  // function that erases the buffer
     free(pointerStruct);
 }
 ```
 
-# Fix destroyRing function
+Where in our main function we would have passed:
+
+```
+destroyRing(rb.buffer);
+```
+
+Where rb is our ring buffer object and our .buffer in the struct is an int pointer. 
+
 
 ## Lesser Functions
 
