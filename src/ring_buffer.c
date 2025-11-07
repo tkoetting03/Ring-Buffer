@@ -56,7 +56,6 @@ void printRing(ringBuffer *pointerStruct) {
 }
 
 
-
 ringError ringBuffer_init(ringBuffer *pointerStruct, size_t capacity) {
 
     if (capacity < 0) {

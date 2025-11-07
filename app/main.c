@@ -45,7 +45,7 @@ int main(void) {
     }
     printf("Elements Stored: %d\n", rb.stored); // print the number of elements stored in the ring buffer
     printRing(&rb); // print the elements in the ring in sequential order
-    destroyRing(rb.buffer);
+    destroyRing(rb.buffer); // free memory location of the rb buffer
 
     return 0;
 }
